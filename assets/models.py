@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.utils.timezone import now
 
 class Department(models.Model):
     name = models.CharField(max_length=100)
@@ -20,10 +21,14 @@ class Asset(models.Model):
         return self.name
 
 class MaintenanceLog(models.Model):
-    asset = models.ForeignKey(Asset, related_name='maintenance_logs', on_delete=models.CASCADE)
-    date = models.DateField()
+    asset = models.ForeignKey(
+        Asset,
+        related_name='maintenance_logs',
+        on_delete=models.CASCADE
+    )
     description = models.TextField()
     cost = models.DecimalField(max_digits=10, decimal_places=2)
+    date_repaired = models.DateField(default=now)
 
     def __str__(self):
-        return f"{self.asset.name} - {self.date}"
+        return f"{self.asset.name} - {self.date_repaired}"

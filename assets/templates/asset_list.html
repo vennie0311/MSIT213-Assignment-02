@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Asset List</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container my-5">
+    <h1 class="mb-4 text-center">Asset List</h1>
+
+    <table class="table table-bordered table-hover text-center">
+        <thead class="table-dark">
+            <tr>
+                <th>Asset Name</th>
+                <th>Assigned To</th>
+                <th>Department</th>
+                <th>Cost</th>
+                <th>Total Repair Cost</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for asset in assets %}
+            <tr>
+                <td>{{ asset.name }}</td>
+                <td>{{ asset.assigned_to }}</td>
+                <td>{{ asset.assigned_to.department }}</td>
+                <td>$ {{ asset.cost }}</td>
+                <td>
+                    $ {{ asset.repair_total|default:0|floatformat:2 }}
+                </td>
+                <td>
+                    <a href="{% url 'maintain_asset' asset.id %}" class="btn btn-warning btn-sm">
+                        🛠️ Log Repair
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="/" class="btn btn-secondary">← Back to Dashboard</a>
+</div>
+</body>
+</html>
